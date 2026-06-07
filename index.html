@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BeadRev — Handmade beaded jewellery, named in Yorùbá</title>
+  <meta name="description" content="Handmade beaded bracelets and necklaces, each carrying a Yorùbá name and meaning — success, joy, favour, faith. Browse, build a cart, and order on WhatsApp.">
+
+  <meta property="og:title" content="BeadRev — Handmade beaded jewellery, named in Yorùbá">
+  <meta property="og:description" content="Each piece carries a Yorùbá name, a meaning, and a small story. Browse meanings, not just jewellery.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/og-cover.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://res.cloudinary.com">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script src="js/config.js" defer></script>
+  <script src="data/seed.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="wordmark" href="#top">BeadRev</a>
+    <button class="cart-toggle" id="cart-toggle" type="button" aria-haspopup="dialog" aria-controls="cart-drawer" aria-expanded="false">
+      <span>Cart</span>
+      <span class="cart-count" id="cart-count" aria-hidden="true">0</span>
+      <span class="visually-hidden">, items in cart</span>
+    </button>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-label="BeadRev — handmade beaded jewellery">
+      <div class="hero__media" aria-hidden="true"></div>
+      <div class="hero__content" data-reveal>
+        <p class="label hero__eyebrow">Handmade · Yorùbá meanings · worn with intention</p>
+        <h1 class="hero__headline">Jewellery that carries a name — and a meaning.</h1>
+        <p class="hero__line">Every BeadRev piece is hand-strung and named in Yorùbá: a small, wearable blessing for whoever wears it.</p>
+      </div>
+      <a class="scroll-cue" href="#shop">
+        <span>Shop the pieces</span>
+        <span class="scroll-cue__line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <section class="section" aria-labelledby="about-title">
+      <div class="container about" data-reveal>
+        <div class="about__photo about__photo--placeholder" role="img" aria-label="Portrait of Daniella, BeadRev's founder — photo coming soon">
+          <span>Founder photo<br>coming soon</span>
+        </div>
+        <div class="about__text">
+          <p class="label">The story</p>
+          <h2 class="section__title" id="about-title">Made by hand, named with care</h2>
+          <p>BeadRev began as a way to give jewellery a deeper story — every piece carries a Yorùbá word and the feeling behind it: success, joy, favour, faith, love, protection.</p>
+          <p>Each bracelet and necklace is strung by hand, in small batches, here in Nigeria — so what you wear feels considered, not mass-made.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shop" id="shop" aria-labelledby="shop-title">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="label">The shop</p>
+          <h2 class="section__title" id="shop-title">Browse by meaning</h2>
+        </div>
+
+        <div class="filters" id="filters" role="group" aria-label="Filter pieces by meaning"></div>
+        <div id="notice-region"></div>
+        <div class="grid" id="product-grid" aria-live="polite" aria-busy="true"></div>
+      </div>
+    </section>
+
+    <section class="section care" aria-labelledby="care-title">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="label">Good to know</p>
+          <h2 class="section__title" id="care-title">Care, sizing &amp; delivery</h2>
+        </div>
+        <div class="care__grid" data-reveal>
+          <div class="care__item">
+            <h3>Caring for your beads</h3>
+            <p>Keep your piece away from water, perfume and lotion. Wipe gently with a soft, dry cloth after wear, and store it flat in its pouch when you're not wearing it.</p>
+          </div>
+          <div class="care__item">
+            <h3>Finding your size</h3>
+            <p>Wrap a soft tape — or a strip of paper, then measure that — snugly around your wrist or neck. Bracelets run S ≈ 15cm, M ≈ 16.5cm, L ≈ 18cm; necklaces sit between 40–50cm. Unsure? Send us your measurement on WhatsApp and we'll guide you.</p>
+          </div>
+          <div class="care__item">
+            <h3>Delivery</h3>
+            <p>We deliver nationwide — cost and timing are confirmed with you directly on WhatsApp once your order is placed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-title" hidden>
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <p class="label">Kind words</p>
+          <h2 class="section__title" id="testimonials-title">What people are saying</h2>
+        </div>
+        <div class="testimonials__grid" id="testimonials-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__row">
+        <a class="wordmark" href="#top">BeadRev</a>
+        <nav class="site-footer__links" aria-label="Social and contact">
+          <a id="footer-instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+          <a id="footer-whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        </nav>
+      </div>
+      <p class="site-footer__credit">© <span id="footer-year"></span> BeadRev. Yorùbá meanings used with love.</p>
+    </div>
+  </footer>
+
+  <!-- Quick-view modal -->
+  <div class="scrim" id="scrim"></div>
+  <div class="modal" id="quick-view" role="dialog" aria-modal="true" aria-labelledby="qv-title" aria-hidden="true">
+    <div class="modal__panel">
+      <button class="modal__close" id="qv-close" type="button" aria-label="Close quick view">✕</button>
+      <div class="modal__gallery">
+        <div class="modal__main" id="qv-main"></div>
+        <div class="modal__thumbs" id="qv-thumbs"></div>
+      </div>
+      <div class="modal__info">
+        <div>
+          <p class="modal__meaning" id="qv-meaning"></p>
+          <h2 class="modal__title" id="qv-title"></h2>
+        </div>
+        <p class="modal__story" id="qv-story" lang="yo"></p>
+        <p class="modal__story" id="qv-description"></p>
+        <p class="modal__price" id="qv-price"></p>
+
+        <div class="option-group" id="qv-colour-group" hidden>
+          <span class="label option-group__label" id="qv-colour-label">Colour</span>
+          <div class="swatches" id="qv-colours" role="group" aria-labelledby="qv-colour-label"></div>
+        </div>
+        <div class="option-group" id="qv-size-group" hidden>
+          <span class="label option-group__label" id="qv-size-label">Size</span>
+          <div class="size-chips" id="qv-sizes" role="group" aria-labelledby="qv-size-label"></div>
+        </div>
+
+        <div class="modal__add-row sticky-cta">
+          <div class="stepper" role="group" aria-label="Quantity">
+            <button class="stepper__btn" id="qv-qty-minus" type="button" aria-label="Decrease quantity">−</button>
+            <span class="stepper__value" id="qv-qty" aria-live="polite">1</span>
+            <button class="stepper__btn" id="qv-qty-plus" type="button" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn--accent" id="qv-add" type="button">Add to cart</button>
+        </div>
+        <p class="field-hint" id="qv-hint" role="alert"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart drawer -->
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+    <div class="cart-drawer__head">
+      <h2 class="cart-drawer__title" id="cart-title">Your cart</h2>
+      <button class="modal__close modal__close--static" id="cart-close" type="button" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-drawer__items" id="cart-items"></div>
+    <div class="cart-drawer__footer" id="cart-footer">
+      <div class="cart-drawer__subtotal">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">₦0</span>
+      </div>
+      <p class="cart-drawer__microcopy">We usually reply within a few hours.</p>
+      <button class="btn btn--accent btn--block" id="cart-checkout" type="button">Order on WhatsApp</button>
+    </div>
+  </aside>
+
+  <div class="toast-region" id="toast-region"></div>
+  <div class="visually-hidden" id="sr-announcer" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

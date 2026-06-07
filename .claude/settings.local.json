@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"console.log\\('f-instock'.replace\\(/-\\([a-z]\\)/g, function\\(_,c\\){return c.toUpperCase\\(\\);}\\)\\)\")",
+      "Bash(npx --yes playwright --version)",
+      "Bash(node -e \"require\\('playwright'\\)\")",
+      "Bash(npm install *)",
+      "Bash(npx playwright *)",
+      "Bash(node .tmp-smoketest.js)",
+      "Bash(node .tmp-smoketest2.js)"
+    ]
+  }
+}
