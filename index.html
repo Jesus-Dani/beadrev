@@ -28,6 +28,10 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-haspopup="dialog" aria-controls="nav-drawer" aria-expanded="false">
+      <span class="nav-toggle__icon" aria-hidden="true"></span>
+      <span>Menu</span>
+    </button>
     <a class="wordmark" href="#top">BeadRev</a>
     <button class="cart-toggle" id="cart-toggle" type="button" aria-haspopup="dialog" aria-controls="cart-drawer" aria-expanded="false">
       <span>Cart</span>
@@ -50,20 +54,6 @@
       </a>
     </section>
 
-    <section class="section" id="story" aria-labelledby="about-title">
-      <div class="container about" data-reveal>
-        <div class="about__photo about__photo--placeholder" role="img" aria-label="Portrait of Daniella, BeadRev's founder — photo coming soon">
-          <span>Founder photo<br>coming soon</span>
-        </div>
-        <div class="about__text">
-          <p class="label">Our story</p>
-          <h2 class="section__title" id="about-title">Made by hand, named with care</h2>
-          <p>BeadRev began as a way to give jewellery a deeper story — every piece carries a Yorùbá word and the feeling behind it: success, joy, favour, faith, love, protection.</p>
-          <p>Each bracelet and necklace is strung by hand, in small batches, here in Nigeria — so what you wear feels considered, not mass-made.</p>
-        </div>
-      </div>
-    </section>
-
     <section class="section shop" id="shop" aria-labelledby="shop-title">
       <div class="container">
         <div class="section__head" data-reveal>
@@ -74,31 +64,6 @@
         <div class="filters" id="filters" role="group" aria-label="Filter pieces by meaning"></div>
         <div id="notice-region"></div>
         <div class="grid" id="product-grid" aria-live="polite" aria-busy="true"></div>
-      </div>
-    </section>
-
-    <section class="section care" aria-labelledby="care-title">
-      <div class="container">
-        <div class="section__head" data-reveal>
-          <p class="label">Good to know</p>
-          <h2 class="section__title" id="care-title">Handmade with care</h2>
-          <p>Keep your piece away from water, perfume and lotion. Make it the last thing you put on and the first thing you take off, and store it in its soft pouch when you're not wearing it.</p>
-          <p>For sizing, measure your wrist and add about 2cm — or message us on WhatsApp and we'll guide you. Custom sizes are always welcome.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact" id="contact" aria-labelledby="contact-title">
-      <div class="container">
-        <div class="section__head" data-reveal>
-          <p class="label">Contact us</p>
-          <h2 class="section__title" id="contact-title">Say hello on WhatsApp or Instagram</h2>
-          <p>Got a question about a piece, sizing, or a custom order? We'd love to hear from you — reach out any time.</p>
-        </div>
-        <div class="contact__links" data-reveal>
-          <a class="btn btn--accent" id="contact-whatsapp" href="#" target="_blank" rel="noopener">Message us on WhatsApp</a>
-          <a class="btn btn--ghost" id="contact-instagram" href="#" target="_blank" rel="noopener">Follow on Instagram</a>
-        </div>
       </div>
     </section>
 
@@ -125,6 +90,67 @@
       <p class="site-footer__credit">© <span id="footer-year"></span> BeadRev. Yorùbá meanings used with love.</p>
     </div>
   </footer>
+
+  <!-- Site menu -->
+  <div class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-labelledby="nav-drawer-title" aria-hidden="true">
+    <div class="nav-drawer__head">
+      <p class="label" id="nav-drawer-title">Menu</p>
+      <button class="modal__close modal__close--static" id="nav-close" type="button" aria-label="Close menu">✕</button>
+    </div>
+    <nav class="nav-drawer__nav" aria-label="Site sections">
+      <ul class="nav-drawer__list">
+        <li><button class="nav-drawer__link" id="nav-link-story" type="button">Our Story</button></li>
+        <li><button class="nav-drawer__link" id="nav-link-shop" type="button">Our Products</button></li>
+        <li><button class="nav-drawer__link" id="nav-link-care" type="button">Care &amp; Sizing</button></li>
+        <li><button class="nav-drawer__link" id="nav-link-contact" type="button">Contact Us</button></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Our Story overlay -->
+  <div class="modal modal--info" id="story-modal" role="dialog" aria-modal="true" aria-labelledby="story-modal-title" aria-hidden="true">
+    <div class="modal__panel modal__panel--info">
+      <button class="modal__close" type="button" aria-label="Close">✕</button>
+      <div class="info-modal__photo info-modal__photo--placeholder" role="img" aria-label="Portrait of Daniella, BeadRev's founder — photo coming soon">
+        <span>Founder photo<br>coming soon</span>
+      </div>
+      <div class="info-modal__body">
+        <p class="label">Our story</p>
+        <h2 class="modal__title" id="story-modal-title">Made by hand, named with care</h2>
+        <p>BeadRev began as a way to give jewellery a deeper story — every piece carries a Yorùbá word and the feeling behind it: success, joy, favour, faith, love, protection.</p>
+        <p>Each bracelet and necklace is strung by hand, in small batches, here in Nigeria — so what you wear feels considered, not mass-made.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Care & sizing overlay -->
+  <div class="modal modal--info" id="care-modal" role="dialog" aria-modal="true" aria-labelledby="care-modal-title" aria-hidden="true">
+    <div class="modal__panel modal__panel--info">
+      <button class="modal__close" type="button" aria-label="Close">✕</button>
+      <div class="info-modal__body">
+        <p class="label">Good to know</p>
+        <h2 class="modal__title" id="care-modal-title">Handmade with care</h2>
+        <p>Keep your piece away from water, perfume and lotion. Make it the last thing you put on and the first thing you take off, and store it in its soft pouch when you're not wearing it.</p>
+        <p>For sizing, measure your wrist and add about 2cm — or message us on WhatsApp and we'll guide you. Custom sizes are always welcome.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact us overlay -->
+  <div class="modal modal--info" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" aria-hidden="true">
+    <div class="modal__panel modal__panel--info">
+      <button class="modal__close" type="button" aria-label="Close">✕</button>
+      <div class="info-modal__body">
+        <p class="label">Contact us</p>
+        <h2 class="modal__title" id="contact-modal-title">Say hello on WhatsApp or Instagram</h2>
+        <p>Got a question about a piece, sizing, or a custom order? We'd love to hear from you — reach out any time.</p>
+        <div class="contact__links">
+          <a class="btn btn--accent" id="contact-whatsapp" href="#" target="_blank" rel="noopener">Message us on WhatsApp</a>
+          <a class="btn btn--ghost" id="contact-instagram" href="#" target="_blank" rel="noopener">Follow on Instagram</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Quick-view modal -->
   <div class="scrim" id="scrim"></div>

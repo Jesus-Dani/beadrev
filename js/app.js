@@ -37,6 +37,9 @@
   function cacheElements() {
     [
       'product-grid', 'filters', 'notice-region',
+      'nav-toggle', 'nav-drawer', 'nav-close',
+      'nav-link-story', 'nav-link-shop', 'nav-link-care', 'nav-link-contact',
+      'story-modal', 'care-modal', 'contact-modal',
       'cart-toggle', 'cart-count', 'cart-drawer', 'cart-close',
       'cart-items', 'cart-footer', 'cart-subtotal', 'cart-checkout',
       'scrim', 'quick-view', 'qv-close', 'qv-main', 'qv-thumbs',
@@ -58,6 +61,8 @@
   function init() {
     wireFooter();
     wireReveal();
+    wireOverlayDismiss();
+    wireNav();
     wireCart();
     wireQuickView();
     renderCartUI();
@@ -88,6 +93,86 @@
       });
     }, { threshold: 0.15 });
     Array.prototype.forEach.call(targets, function (t) { observer.observe(t); });
+  }
+
+  // ----------------------------------------------------------------
+  // Site menu (Our Story / Our Products / Care & Sizing / Contact us)
+  // ----------------------------------------------------------------
+
+  function wireNav() {
+    if (!els.navToggle || !els.navDrawer) return;
+
+    els.navToggle.addEventListener('click', function () {
+      if (els.navDrawer.classList.contains('is-open')) closeNav();
+      else openNav();
+    });
+    els.navClose.addEventListener('click', closeNav);
+    els.navDrawer.addEventListener('keydown', trapFocusHandler(els.navDrawer));
+
+    if (els.navLinkShop) {
+      els.navLinkShop.addEventListener('click', function () {
+        closeNav();
+        var target = document.getElementById('shop');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    wireInfoOverlay(els.navLinkStory, els.storyModal, closeStoryModal);
+    wireInfoOverlay(els.navLinkCare, els.careModal, closeCareModal);
+    wireInfoOverlay(els.navLinkContact, els.contactModal, closeContactModal);
+  }
+
+  function wireInfoOverlay(link, modal, closeFn) {
+    if (!link || !modal) return;
+    link.addEventListener('click', function () {
+      closeNav();
+      openInfoModal(modal, closeFn, link);
+    });
+    modal.addEventListener('keydown', trapFocusHandler(modal));
+    var closeBtn = modal.querySelector('.modal__close');
+    if (closeBtn) closeBtn.addEventListener('click', closeFn);
+  }
+
+  function openNav() {
+    els.navDrawer.classList.add('is-open');
+    els.navDrawer.setAttribute('aria-hidden', 'false');
+    els.navToggle.setAttribute('aria-expanded', 'true');
+    lockOverlay(closeNav);
+    window.requestAnimationFrame(function () { els.navClose.focus(); });
+  }
+
+  function closeNav() {
+    if (!els.navDrawer.classList.contains('is-open')) return;
+    els.navDrawer.classList.remove('is-open');
+    els.navDrawer.setAttribute('aria-hidden', 'true');
+    els.navToggle.setAttribute('aria-expanded', 'false');
+    unlockOverlay(closeNav);
+  }
+
+  function closeStoryModal() { closeInfoModal(els.storyModal, closeStoryModal); }
+  function closeCareModal() { closeInfoModal(els.careModal, closeCareModal); }
+  function closeContactModal() { closeInfoModal(els.contactModal, closeContactModal); }
+
+  function openInfoModal(modal, closeFn, triggerEl) {
+    if (!modal || modal.classList.contains('is-open')) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    modal._trigger = triggerEl || null;
+    lockOverlay(closeFn);
+    window.requestAnimationFrame(function () {
+      var closeBtn = modal.querySelector('.modal__close');
+      if (closeBtn) closeBtn.focus();
+    });
+  }
+
+  function closeInfoModal(modal, closeFn) {
+    if (!modal || !modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    unlockOverlay(closeFn);
+    var trigger = modal._trigger;
+    modal._trigger = null;
+    if (trigger && document.body.contains(trigger)) trigger.focus();
   }
 
   // ----------------------------------------------------------------
@@ -347,15 +432,6 @@
 
   function wireQuickView() {
     els.qvClose.addEventListener('click', closeQuickView);
-    els.scrim.addEventListener('click', function () {
-      if (els.quickView.classList.contains('is-open')) closeQuickView();
-      else if (els.cartDrawer.classList.contains('is-open')) closeCart();
-    });
-    document.addEventListener('keydown', function (event) {
-      if (event.key !== 'Escape') return;
-      if (els.quickView.classList.contains('is-open')) closeQuickView();
-      else if (els.cartDrawer.classList.contains('is-open')) closeCart();
-    });
     els.quickView.addEventListener('keydown', trapFocusHandler(els.quickView));
 
     els.qvQtyMinus.addEventListener('click', function () { setQuantity(state.quickView.quantity - 1); });
@@ -391,10 +467,9 @@
     setQuantity(1);
     updateAddButtonState();
 
-    els.scrim.classList.add('is-open');
     els.quickView.classList.add('is-open');
     els.quickView.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lockOverlay(closeQuickView);
 
     window.requestAnimationFrame(function () { els.qvClose.focus(); });
   }
@@ -403,10 +478,7 @@
     if (!els.quickView.classList.contains('is-open')) return;
     els.quickView.classList.remove('is-open');
     els.quickView.setAttribute('aria-hidden', 'true');
-    if (!els.cartDrawer.classList.contains('is-open')) {
-      els.scrim.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
+    unlockOverlay(closeQuickView);
     var trigger = state.quickView.triggerEl;
     state.quickView.product = null;
     if (trigger && document.body.contains(trigger)) trigger.focus();
@@ -614,6 +686,42 @@
   }
 
   // ----------------------------------------------------------------
+  // Shared overlay machinery (scrim, scroll lock, dismiss) — every
+  // modal/drawer shares one scrim and stacks on a single close stack
+  // so Escape/scrim-click always dismiss the topmost overlay.
+  // ----------------------------------------------------------------
+
+  var overlayCloseStack = [];
+
+  function lockOverlay(closeFn) {
+    if (overlayCloseStack.indexOf(closeFn) === -1) overlayCloseStack.push(closeFn);
+    els.scrim.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function unlockOverlay(closeFn) {
+    var index = overlayCloseStack.indexOf(closeFn);
+    if (index !== -1) overlayCloseStack.splice(index, 1);
+    if (!overlayCloseStack.length) {
+      els.scrim.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function closeTopOverlay() {
+    var top = overlayCloseStack[overlayCloseStack.length - 1];
+    if (top) top();
+  }
+
+  function wireOverlayDismiss() {
+    els.scrim.addEventListener('click', closeTopOverlay);
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      closeTopOverlay();
+    });
+  }
+
+  // ----------------------------------------------------------------
   // Focus trap (shared by modal & cart drawer)
   // ----------------------------------------------------------------
 
@@ -693,11 +801,10 @@
   }
 
   function openCart() {
-    els.scrim.classList.add('is-open');
     els.cartDrawer.classList.add('is-open');
     els.cartDrawer.setAttribute('aria-hidden', 'false');
     els.cartToggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    lockOverlay(closeCart);
     window.requestAnimationFrame(function () { els.cartClose.focus(); });
   }
 
@@ -706,10 +813,7 @@
     els.cartDrawer.classList.remove('is-open');
     els.cartDrawer.setAttribute('aria-hidden', 'true');
     els.cartToggle.setAttribute('aria-expanded', 'false');
-    if (!els.quickView.classList.contains('is-open')) {
-      els.scrim.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
+    unlockOverlay(closeCart);
     els.cartToggle.focus();
   }
 
