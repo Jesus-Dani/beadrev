@@ -334,6 +334,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-size: clamp(var(--text-xl), 4.5vw, var(--text-2xl));
   margin-top: var(--space-2);
 }
+.section__head p { color: var(--muted); }
+.section__head p + p { margin-top: var(--space-3); }
 
 /* ============================================================
    About
@@ -926,20 +928,14 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ============================================================
-   Care section
+   Contact section
    ============================================================ */
-.care__grid {
-  display: grid;
-  gap: var(--space-6);
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
-@media (min-width: 760px) {
-  .care__grid { grid-template-columns: repeat(3, 1fr); }
-}
-.care__item h3 {
-  font-size: var(--text-md);
-  margin-bottom: var(--space-2);
-}
-.care__item p { color: var(--muted); }
+.contact__links .btn { min-width: 14rem; }
 
 /* ============================================================
    Testimonials slot
@@ -1070,6 +1066,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   gap: var(--space-4);
   text-align: center;
 }
+.admin-gate[hidden] { display: none; }
 
 .field {
   display: flex;

@@ -44,7 +44,8 @@
       'qv-colour-group', 'qv-colours', 'qv-size-group', 'qv-sizes',
       'qv-qty-minus', 'qv-qty-plus', 'qv-qty', 'qv-add', 'qv-hint',
       'toast-region', 'sr-announcer',
-      'footer-instagram', 'footer-whatsapp', 'footer-year'
+      'footer-instagram', 'footer-whatsapp', 'footer-year',
+      'contact-whatsapp', 'contact-instagram'
     ].forEach(function (id) {
       els[toCamel(id)] = document.getElementById(id);
     });
@@ -67,6 +68,8 @@
     if (els.footerInstagram) els.footerInstagram.href = CONFIG.instagramUrl || '#';
     if (els.footerWhatsapp) els.footerWhatsapp.href = whatsappLink('Hello BeadRev 🌿 I have a question about a piece.');
     if (els.footerYear) els.footerYear.textContent = String(new Date().getFullYear());
+    if (els.contactWhatsapp) els.contactWhatsapp.href = whatsappLink('Hello BeadRev 🌿 I have a question about a piece.');
+    if (els.contactInstagram) els.contactInstagram.href = CONFIG.instagramUrl || '#';
   }
 
   function wireReveal() {

@@ -520,17 +520,24 @@
       body: formData
     })
       .then(function (res) {
-        if (!res.ok) throw new Error('upload-failed');
-        return res.json();
+        return res.json().catch(function () { return null; }).then(function (data) {
+          return { ok: res.ok, data: data };
+        });
       })
-      .then(function (data) {
-        if (!data || !data.public_id) throw new Error('no-public-id');
-        formState.image = data.public_id;
+      .then(function (result) {
+        if (!result.ok || !result.data || !result.data.public_id) {
+          var serverMessage = result.data && result.data.error && result.data.error.message;
+          throw new Error(serverMessage || 'upload-failed');
+        }
+        formState.image = result.data.public_id;
         showImagePreview(formState.image);
         els.imageHint.textContent = 'Photo uploaded.';
       })
-      .catch(function () {
-        els.imageHint.textContent = 'Upload failed — check your connection and try again.';
+      .catch(function (err) {
+        var detail = err && err.message && err.message !== 'upload-failed' ? err.message : null;
+        els.imageHint.textContent = detail
+          ? 'Upload failed: ' + detail + ' — check the upload preset settings in Cloudinary.'
+          : 'Upload failed — check your connection and try again.';
         els.imageDropText.textContent = 'Drag a photo here, or click to choose one';
       });
   }
