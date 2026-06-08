@@ -42,10 +42,13 @@ exports.handler = async (event) => {
       return jsonResponse(400, { error: "Invalid request body." });
     }
 
-    const { password, products } = payload;
+    const { password, products, action } = payload;
 
     if (typeof password !== "string" || password !== ADMIN_PASSWORD) {
       return jsonResponse(401, { error: "Wrong password." });
+    }
+    if (action === "verify") {
+      return jsonResponse(200, { ok: true });
     }
     if (!Array.isArray(products)) {
       return jsonResponse(400, { error: "Products must be a list." });

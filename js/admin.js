@@ -27,7 +27,7 @@
 
   function cacheElements() {
     [
-      'admin-gate', 'gate-form', 'gate-password', 'gate-hint',
+      'admin-gate', 'gate-form', 'gate-password', 'gate-submit', 'gate-hint',
       'admin-main', 'admin-status', 'admin-notice',
       'admin-list', 'admin-add-btn',
       'admin-form-section', 'admin-form', 'admin-form-title',
@@ -67,12 +67,43 @@
   function wireGate() {
     els.gateForm.addEventListener('submit', function (event) {
       event.preventDefault();
+      if (els.gateSubmit.dataset.loading === 'true') return;
       var value = els.gatePassword.value;
       if (!value) return;
-      sessionPassword = value;
-      els.gatePassword.value = '';
-      els.gateHint.textContent = '';
-      enterAdmin();
+
+      els.gateSubmit.dataset.loading = 'true';
+      els.gateHint.textContent = 'Checking…';
+
+      fetch(CONFIG.apiPath, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: value, action: 'verify' })
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return null; }).then(function (data) {
+            return { ok: res.ok, status: res.status, data: data };
+          });
+        })
+        .then(function (result) {
+          delete els.gateSubmit.dataset.loading;
+          if (result.ok && result.data && result.data.ok) {
+            sessionPassword = value;
+            els.gatePassword.value = '';
+            els.gateHint.textContent = '';
+            enterAdmin();
+            return;
+          }
+          if (result.status === 401) {
+            els.gatePassword.value = '';
+            showGate('Wrong password — please try again.');
+            return;
+          }
+          throw new Error('verify-failed');
+        })
+        .catch(function () {
+          delete els.gateSubmit.dataset.loading;
+          showGate('Could not check the password right now — please try again.');
+        });
     });
   }
 
