@@ -282,6 +282,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   height: 100%;
   object-fit: cover;
 }
+@media (max-width: 699px) {
+  .hero__media video { object-fit: contain; }
+}
 .hero__media::after {
   content: "";
   position: absolute;
