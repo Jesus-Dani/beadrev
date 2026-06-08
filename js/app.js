@@ -37,6 +37,7 @@
   function cacheElements() {
     [
       'product-grid', 'filters', 'notice-region',
+      'hero-video', 'hero-sound-toggle',
       'nav-toggle', 'nav-drawer', 'nav-close',
       'nav-link-story', 'nav-link-shop', 'nav-link-care', 'nav-link-contact',
       'story-modal', 'care-modal', 'contact-modal',
@@ -61,6 +62,7 @@
   function init() {
     wireFooter();
     wireReveal();
+    wireHeroSound();
     wireOverlayDismiss();
     wireNav();
     wireCart();
@@ -75,6 +77,17 @@
     if (els.footerYear) els.footerYear.textContent = String(new Date().getFullYear());
     if (els.contactWhatsapp) els.contactWhatsapp.href = whatsappLink('Hello BeadRev 🌿 I have a question about a piece.');
     if (els.contactInstagram) els.contactInstagram.href = CONFIG.instagramUrl || '#';
+  }
+
+  function wireHeroSound() {
+    if (!els.heroVideo || !els.heroSoundToggle) return;
+    els.heroSoundToggle.addEventListener('click', function () {
+      var turningOn = els.heroVideo.muted;
+      els.heroVideo.muted = !turningOn;
+      if (turningOn) els.heroVideo.play().catch(function () {});
+      els.heroSoundToggle.setAttribute('aria-pressed', String(turningOn));
+      els.heroSoundToggle.textContent = turningOn ? 'Mute video' : 'Tap for sound';
+    });
   }
 
   function wireReveal() {

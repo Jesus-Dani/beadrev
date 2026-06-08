@@ -312,6 +312,26 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: rgba(244, 241, 234, 0.92);
 }
 
+.hero__sound-toggle {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: 1;
+  min-height: var(--tap-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  border: 1px solid rgba(244, 241, 234, 0.5);
+  background: rgba(26, 23, 20, 0.35);
+  backdrop-filter: blur(6px);
+  color: rgba(244, 241, 234, 0.92);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  transition: border-color var(--duration-base) var(--ease), background var(--duration-base) var(--ease);
+}
+.hero__sound-toggle:hover { border-color: rgba(244, 241, 234, 0.9); }
+.hero__sound-toggle[aria-pressed="true"] { background: rgba(26, 23, 20, 0.55); }
+
 .scroll-cue {
   position: absolute;
   bottom: var(--space-5);
