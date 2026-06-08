@@ -268,6 +268,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 @media (min-width: 700px) {
   .hero { min-height: min(86vh, 760px); }
+  .scroll-cue { display: inline-flex; }
 }
 
 .hero__media {
@@ -336,12 +337,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 .hero__sound-toggle[aria-pressed="true"] { background: rgba(26, 23, 20, 0.55); }
 
 .scroll-cue {
+  display: none;
   position: absolute;
   bottom: var(--space-5);
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
-  display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);

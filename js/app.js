@@ -61,6 +61,7 @@
 
   function init() {
     wireFooter();
+    wireHeroVideo();
     wireReveal();
     wireHeroSound();
     wireOverlayDismiss();
@@ -77,6 +78,22 @@
     if (els.footerYear) els.footerYear.textContent = String(new Date().getFullYear());
     if (els.contactWhatsapp) els.contactWhatsapp.href = whatsappLink('Hello BeadRev 🌿 I have a question about a piece.');
     if (els.contactInstagram) els.contactInstagram.href = CONFIG.instagramUrl || '#';
+  }
+
+  function wireHeroVideo() {
+    if (!els.heroVideo) return;
+    var video = els.heroVideo;
+    video.muted = true;
+
+    function tryPlay() {
+      var p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    }
+    tryPlay();
+    video.addEventListener('loadeddata', tryPlay);
+    ['touchstart', 'click', 'scroll'].forEach(function (evt) {
+      window.addEventListener(evt, tryPlay, { passive: true, once: true });
+    });
   }
 
   function wireHeroSound() {
